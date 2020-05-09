@@ -225,7 +225,7 @@ public class MasterView extends JFrame implements ActionListener{
 		
 		
 		restartPanel = new JPanel();
-		restartCheak = (boolean) rs.getThread().getCheak();
+		/*restartCheak = (boolean) rs.getThread().getCheak();
 		
 		if (restartCheak) {
 			restart = new JLabel("자동 새로고침 : 켜져있음");
@@ -259,7 +259,7 @@ public class MasterView extends JFrame implements ActionListener{
 				
 				
 			}
-		});
+		});*/
 		
 		restartPanel.setBounds(1, 554, 310, 140);
 		restartPanel.setBackground(new Color(250,230,250));

@@ -1,12 +1,14 @@
 package main;
 
+import DB.DataBeseConn;
 import VO.RestaurantView;
 
 public class main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		RestaurantView rs = new RestaurantView();
+		
+		//RestaurantView rs = new RestaurantView("hgf107103", "Hwt0147258!");
+		DataBeseConn dbc = new DataBeseConn();
 	}
 
 }

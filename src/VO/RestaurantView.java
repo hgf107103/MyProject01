@@ -45,8 +45,10 @@ public class RestaurantView extends JFrame implements ActionListener{
 	private restartThread rt;
 	
 	
-	public RestaurantView() {
-		admin = new DataBese();
+	public RestaurantView(String uid, String upass) {
+		admin = DataBese.getInstance();
+		admin.setDataBese(uid, upass);
+		
 		System.out.println("시작");
 		setTitle("레스토랑");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -103,35 +105,36 @@ public class RestaurantView extends JFrame implements ActionListener{
 		
 		buttonPanel.add(goMasterView);
 		buttonPanel.add(reset);
+		
 		add(tablePanel);
 		add(buttonPanel);
 		
 		
 		setVisible(true);
 		
-		this.addWindowListener(new WindowListener() {
+		/*this.addWindowListener(new WindowListener() {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {
-				JOptionPane.showMessageDialog(null, "환영합니다", "오픈", JOptionPane.INFORMATION_MESSAGE);
+				//JOptionPane.showMessageDialog(null, "환영합니다", "오픈", JOptionPane.INFORMATION_MESSAGE);
 				
 			}
 			
 			@Override
 			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
+				// 
 				
 			}
 			
 			@Override
 			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
+				// 
 				
 			}
 			
 			@Override
 			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
+				// 
 				
 			}
 			
@@ -143,19 +146,23 @@ public class RestaurantView extends JFrame implements ActionListener{
 			
 			@Override
 			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
+				// 
 				
 			}
 			
 			@Override
 			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
+				// 
 				
 			}
-		});
+		});*/
 		
-		rt = new restartThread(rs, admin);
-		rt.run();
+		System.out.println("레스토랑 뷰 생성완료");
+		
+		admin.threadRun();
+		/*rt = new restartThread(rs, admin);
+		rt.run();*/
+		
 	}
 	
 	
@@ -179,17 +186,20 @@ public class RestaurantView extends JFrame implements ActionListener{
 	
 	public void tableSet() {
 		try {
-			
+			System.out.println("tableSet : 테이블 세트 시작");
 			int i = 0;
 			
 			for (JPanel myPanel : tbPanelList) {
-				tablePanel.remove(myPanel);
+				remove(myPanel);
 			}
+			System.out.println("tableSet : 테이블 패널리스트 리무브 완료");
 			
 			tbPanelList.clear();
 			tbNumberLabel.clear();
 			tbNameLabel.clear();
 			tbButton.clear();
+			
+			System.out.println("tableSet : 테이블 패널 리스트 클리어 완료");
 			
 			for (Table table : admin.getTableList()) {
 				
@@ -231,8 +241,10 @@ public class RestaurantView extends JFrame implements ActionListener{
 				tbPanelList.get(i).add(tbNameLabel.get(i));
 				tbPanelList.get(i).add(tbButton.get(i));
 				tablePanel.add(tbPanelList.get(i));
+				System.out.println("tableSet : 테이블 " + i + "개 생성됨");
 				i++;
 			}
+			System.out.println("tableSet : 테이블 세트 완료");
 			
 		} catch (Exception e) {
 			JOptionPane.showConfirmDialog(null, "테이블을 불러오는데 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
@@ -277,9 +289,14 @@ public class RestaurantView extends JFrame implements ActionListener{
 		private boolean cheak;
 		
 		public restartThread(RestaurantView rs, DataBese admin) {
-			this.rs = rs;
-			this.admin = admin;
-			cheak = true;
+			try {
+				this.rs = rs;
+				this.admin = admin;
+				cheak = false;
+			} catch (Exception e) {
+				System.out.println("restartThread ERROR : " + e);
+			}
+			
 		}
 		
 		@Override
@@ -288,6 +305,7 @@ public class RestaurantView extends JFrame implements ActionListener{
 			try {
 				do {
 					while (cheak) {
+						System.out.println("쓰레드 작동중");
 						rs.revalidate();
 						rs.repaint();
 						Thread.sleep(2000);

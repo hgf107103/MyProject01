@@ -18,18 +18,27 @@ import master.*;
 
 public class DataBese {
 	
-	
-	private String url="jdbc:mysql://117.17.113.248:3306/restaurant";
-	private String uid="guest";
-	private String upass="123456";
+	private String url="jdbc:mysql://27.96.134.5:3306/restaurant?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false";
+	private String uid="";
+	private String upass="";
 	private String sql;
 	private ArrayList<Table> tableList = new ArrayList<Table>();
 	private ArrayList<Menu> menuList = new ArrayList<Menu>();
 	private Connection conn = null;
 	private Statement st = null;
 	
-	public DataBese() {
+	private DataBese() {
+	}
+	
+	public static DataBese getInstance() {
+		return new DataBese();
+	}
+	
+	public void setDataBese(String uid, String upass) {
 		try {
+			
+			this.uid = uid;
+			this.upass = upass;
 
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("mysql : 드라이브 적재됨");
@@ -90,8 +99,7 @@ public class DataBese {
 			System.out.println("mysql : 모든 객체 클로즈 됨");
 			
 			
-			ownerCallThread oct = new ownerCallThread();
-			oct.start();
+			
 			
 			
 			System.out.println("mysql : DB객체 생성완료\n");
@@ -100,6 +108,11 @@ public class DataBese {
 			
 			System.out.println("mysql : DB연동 실패\n");
 		}
+	}
+	
+	public void threadRun() {
+		ownerCallThread oct = new ownerCallThread(uid, upass);
+		oct.start();
 	}
 	
 	public void	renewal() {
@@ -650,15 +663,29 @@ public class DataBese {
 		}
 	}
 	
+	public boolean DataBaseConnectingTest(String DBid, String DBpwd) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println("mysql : 드라이브 적재됨");
+			
+			conn = DriverManager.getConnection(url, DBid, DBpwd);
+			System.out.println("mysql : 드라이브에 DB 연동됨");
+			
+			System.out.println("mysql : 데이터베이스 연결 테스트 성공\n");
+			return true;
+		} catch (Exception e) {
+			System.out.println("mysql : 데이터베이스 연결 테스트 실패\n");
+			return false;
+		}
+	}
+	
 	public static class ownerCallThread extends Thread{
 		
-		private String url="jdbc:mysql://117.17.113.248:3306/restaurant";
-		private String uid="guest";
-		private String upass="123456";
+		private String url="jdbc:mysql://27.96.134.5:3306/restaurant?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false";
 		private Connection conn = null;
 		private Statement st = null;
 		
-		public ownerCallThread() {
+		public ownerCallThread(String uid, String upass) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				System.out.println("mysql : 쓰레드에 드라이브 적재됨");
@@ -680,9 +707,12 @@ public class DataBese {
 					st = conn.createStatement();
 					String sql1 ="SELECT * FROM mytable";
 					ResultSet rs = st.executeQuery(sql1);
+					System.out.println("mysql : 종업원 콜 쓰레드 준비 완료");
+					
 					while (rs.next()) {
 						int tableNumber = rs.getInt("tableNumber");
 						int ownerCall = rs.getInt("ownerCall");
+						System.out.println("mysql : 종업원 콜 쓰레드 호출번호 저장");
 						
 						if (ownerCall == 1) {
 							int result = JOptionPane.showConfirmDialog(null, tableNumber + "번 테이블에서 호출입니다.", "호출", JOptionPane.YES_NO_OPTION);
@@ -698,6 +728,8 @@ public class DataBese {
 								JOptionPane.showMessageDialog(null, "호출 확인을 취소하셨습니다.\n잠시 후에 재호출 합니다.");
 							}
 						}
+						System.out.println("mysql : 종업원 콜 쓰레드 호출 조건 탐색 완료");
+						
 					}
 					Thread.sleep(2000);
 					
@@ -705,7 +737,7 @@ public class DataBese {
 				
 			} catch (Exception e) {
 				
-				System.out.println("mysql : 종업원 콜 쓰레드 오류발생");
+				System.out.println("mysql : 종업원 콜 쓰레드 오류발생 - " + e);
 			}	
 		}
 
