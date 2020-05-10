@@ -46,7 +46,7 @@ public class MasterView extends JFrame implements ActionListener{
 	
 	public MasterView(RestaurantView rs, DataBese admin) {
 		setTitle("마스터");
-		setBounds(20, 20, 328, 735);
+		setBounds(20, 20, 325, 580);
 		setResizable(false);
 		
 		allPanel = new JPanel();
@@ -59,7 +59,7 @@ public class MasterView extends JFrame implements ActionListener{
 		deleteTable = new JButton("테이블 삭제");
 		
 		allPanel.setLayout(null);
-		allPanel.setBounds(0, 0, 312, 725);
+		allPanel.setBounds(0, 0, 312, 580);
 		allPanel.setBackground(new Color(255,255,255));
 		
 		createTPanel.setLayout(null);
@@ -224,8 +224,8 @@ public class MasterView extends JFrame implements ActionListener{
 		});
 		
 		
-		restartPanel = new JPanel();
-		/*restartCheak = (boolean) rs.getThread().getCheak();
+		/*restartPanel = new JPanel();
+		restartCheak = (boolean) rs.getThread().getCheak();
 		
 		if (restartCheak) {
 			restart = new JLabel("자동 새로고침 : 켜져있음");
@@ -259,7 +259,7 @@ public class MasterView extends JFrame implements ActionListener{
 				
 				
 			}
-		});*/
+		});
 		
 		restartPanel.setBounds(1, 554, 310, 140);
 		restartPanel.setBackground(new Color(250,230,250));
@@ -273,7 +273,7 @@ public class MasterView extends JFrame implements ActionListener{
 		restartPower.setFont(new Font(getName(), 1, 20));
 		
 		restartPanel.add(restart);
-		restartPanel.add(restartPower);
+		restartPanel.add(restartPower);*/
 		
 		deleteMPanel.add(menuBox);
 		deleteMPanel.add(deleteMenu);
@@ -281,7 +281,7 @@ public class MasterView extends JFrame implements ActionListener{
 		allPanel.add(createTPanel);
 		allPanel.add(createMPanel);
 		allPanel.add(deleteMPanel);
-		allPanel.add(restartPanel);
+		//allPanel.add(restartPanel);
 		
 		add(allPanel);
 		

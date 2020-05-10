@@ -50,7 +50,7 @@ public class DataBese {
 			st = conn.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			
-			
+			tableList.clear();
 			
 			
 			while (rs.next()) {
@@ -131,6 +131,9 @@ public class DataBese {
 			menuList.clear();
 			
 			ResultSet rs1 = st.executeQuery(sql1);
+			
+			tableList.clear();
+			menuList.clear();
 			
 			while (rs1.next()) {
 				int tableNumber = rs1.getInt("tableNumber");

@@ -42,11 +42,10 @@ public class RestaurantView extends JFrame implements ActionListener{
 	private DataBese admin;
 	
 	private RestaurantView rs = this;
-	private restartThread rt;
+	//private restartThread rt;
 	
-	
-	public RestaurantView(String uid, String upass) {
-		admin = DataBese.getInstance();
+	public RestaurantView(String uid, String upass, DataBese admin) {
+		this.admin = admin;
 		admin.setDataBese(uid, upass);
 		
 		System.out.println("시작");
@@ -94,8 +93,10 @@ public class RestaurantView extends JFrame implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
 					rs.revalidate();
-					admin.renewal();
+					rs.repaint();
+					
 					System.out.println("새로고침 됨");
 				} catch (Exception e2) {
 					System.out.println("새로고침 안됨");
@@ -160,7 +161,7 @@ public class RestaurantView extends JFrame implements ActionListener{
 		System.out.println("레스토랑 뷰 생성완료");
 		
 		admin.threadRun();
-		/*rt = new restartThread(rs, admin);
+		/*rt = new restartThread(rs);
 		rt.run();*/
 		
 	}
@@ -190,7 +191,7 @@ public class RestaurantView extends JFrame implements ActionListener{
 			int i = 0;
 			
 			for (JPanel myPanel : tbPanelList) {
-				remove(myPanel);
+				tablePanel.remove(myPanel);
 			}
 			System.out.println("tableSet : 테이블 패널리스트 리무브 완료");
 			
@@ -244,6 +245,7 @@ public class RestaurantView extends JFrame implements ActionListener{
 				System.out.println("tableSet : 테이블 " + i + "개 생성됨");
 				i++;
 			}
+			//rs.add(tablePanel);
 			System.out.println("tableSet : 테이블 세트 완료");
 			
 		} catch (Exception e) {
@@ -273,9 +275,9 @@ public class RestaurantView extends JFrame implements ActionListener{
 		}
 	}
 	
-	public restartThread getThread() {
+	/*public restartThread getThread() {
 		return rt;
-	}
+	}*/
 	
 
 	@Override
@@ -283,16 +285,14 @@ public class RestaurantView extends JFrame implements ActionListener{
 		System.out.println("잘못됨");
 	}
 
-	public static class restartThread implements Runnable{
+	/*public static class restartThread implements Runnable{
 		private RestaurantView rs;
-		private DataBese admin;
 		private boolean cheak;
 		
-		public restartThread(RestaurantView rs, DataBese admin) {
+		public restartThread(RestaurantView rs) {
 			try {
 				this.rs = rs;
-				this.admin = admin;
-				cheak = false;
+				cheak = true;
 			} catch (Exception e) {
 				System.out.println("restartThread ERROR : " + e);
 			}
@@ -334,5 +334,5 @@ public class RestaurantView extends JFrame implements ActionListener{
 			}
 		}
 
-	}
+	}*/
 }

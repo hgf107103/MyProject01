@@ -79,7 +79,7 @@ public class DataBeseConn extends JFrame implements ActionListener{
 		try {
 			DataBese db = DataBese.getInstance();
 			boolean check = db.DataBaseConnectingTest(idText.getText(), pwdText.getText());
-			db = null;
+			//db = null;
 			
 			String uid = idText.getText();
 			String upass = pwdText.getText();
@@ -90,7 +90,7 @@ public class DataBeseConn extends JFrame implements ActionListener{
 				if (result == JOptionPane.YES_OPTION) {
 					dispose();
 					System.out.println(uid + " : " + upass);
-					RestaurantMain.main(uid,upass);
+					new RestaurantView(uid, upass, db);
 				} else {
 					JOptionPane.showMessageDialog(null, "취소하셨습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
 					return;
